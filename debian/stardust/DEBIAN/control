@@ -1,0 +1,9 @@
+Package: stardust
+Version: 0.0.1
+Section: utils
+Priority: optional
+Architecture: amd64
+Essential: no
+Depends: libc6 (>= 2.12)
+Maintainer: Martin Czygan
+Description: String distance metrics for the command line.
