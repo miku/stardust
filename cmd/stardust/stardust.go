@@ -7,5 +7,5 @@ import (
 )
 
 func main() {
-	fmt.Printf("stardust %s\n", stardust.Version)
+	fmt.Printf("The unigram-distance between stardust and strdist is %f\n", stardust.NgramSimilaritySize("stardust", "strdist", 1))
 }
