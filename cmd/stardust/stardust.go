@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"runtime/pprof"
 	"sort"
 	"strings"
 
@@ -22,8 +23,24 @@ func main() {
 
 	measure := flag.String("m", "ngram", "distance measure")
 	listFuncs := flag.Bool("l", false, "list available measures")
+	version := flag.Bool("v", false, "prints current program version")
+	cpuprofile := flag.String("cpuprofile", "", "write cpu profile to file")
 
 	flag.Parse()
+
+	if *version {
+		fmt.Println(stardust.Version)
+		os.Exit(0)
+	}
+
+	if *cpuprofile != "" {
+		f, err := os.Create(*cpuprofile)
+		if err != nil {
+			log.Fatal(err)
+		}
+		pprof.StartCPUProfile(f)
+		defer pprof.StopCPUProfile()
+	}
 
 	if *listFuncs {
 		var keys []string
