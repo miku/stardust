@@ -5,6 +5,9 @@ TARGETS = stardust
 test:
 	go get -d && go test -v
 
+bench:
+	go test -bench=.
+
 imports:
 	goimports -w .
 

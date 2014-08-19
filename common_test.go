@@ -143,3 +143,20 @@ func TestLevenshteinDistance(t *testing.T) {
 	}
 }
 
+func BenchmarkNgramSimilarity(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		NgramSimilarity("Hello World", "Hey young world")
+	}
+}
+
+func BenchmarkHammingDistance(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		HammingDistance("Hello World", "Hey young world")
+	}
+}
+
+func BenchmarkLevenshteinDistance(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		LevenshteinDistance("Hello World", "Hey young world")
+	}
+}
