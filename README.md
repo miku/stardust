@@ -14,7 +14,7 @@ Overview
 
     $ go run cmd/stardust/stardust.go -h
     Usage of stardust:
-      -f="ngram": distance measure
+      -m="ngram": distance measure
       -l=false: list available measures
 
     $ go run cmd/stardust/stardust.go -l
@@ -22,8 +22,8 @@ Overview
     levenshtein
     ngram
 
-    $ go run cmd/stardust/stardust.go -f levenshtein "München" "Munich"
+    $ go run cmd/stardust/stardust.go -m levenshtein "München" "Munich"
     4
 
-    $ go run cmd/stardust/stardust.go -f ngram "The quick brown fox" "The fox brown quick"
+    $ go run cmd/stardust/stardust.go -m ngram "The quick brown fox" "The fox brown quick"
     0.6190476190476191

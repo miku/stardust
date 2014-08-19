@@ -18,7 +18,7 @@ func main() {
 		"levenshtein": stardust.LevenshteinDistance,
 	}
 
-	measure := flag.String("f", "ngram", "distance measure")
+	measure := flag.String("m", "ngram", "distance measure")
 	listFuncs := flag.Bool("l", false, "list available measures")
 
 	flag.Parse()
