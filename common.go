@@ -3,11 +3,22 @@ package stardust
 import (
 	"errors"
 	"math"
+	"strings"
 
 	"github.com/juju/utils/set"
 )
 
 const Version = "0.0.1"
+
+func CompleteString(pool []string, prefix string) []string {
+	var candidates []string
+	for _, value := range pool {
+		if strings.HasPrefix(value, prefix) {
+			candidates = append(candidates, value)
+		}
+	}
+	return candidates
+}
 
 func JaccardSets(a, b set.Strings) float64 {
 	return float64(a.Intersection(b).Size()) / float64(a.Union(b).Size())
@@ -36,13 +47,16 @@ func Ngrams(s string, n int) set.Strings {
 	return result
 }
 
-func NgramSimilaritySize(s, t string, n int) float64 {
-	sg := Ngrams(s, n)
-	tg := Ngrams(t, n)
-	return JaccardSets(sg, tg)
+func NgramSimilaritySize(s, t string, n int) (float64, error) {
+	sset := Ngrams(s, n)
+	tset := Ngrams(t, n)
+	if tset.Size() == 0 && sset.Size() == 0 {
+		return 0, nil
+	}
+	return JaccardSets(sset, tset), nil
 }
 
-func NgramSimilarity(s, t string) float64 {
+func NgramSimilarity(s, t string) (float64, error) {
 	return NgramSimilaritySize(s, t, 3)
 }
 
@@ -79,12 +93,12 @@ func minInt(numbers ...int) int {
 	return result
 }
 
-func LevenshteinDistance(s, t string) int {
+func LevenshteinDistance(s, t string) (int, error) {
 	if len(s) < len(t) {
 		return LevenshteinDistance(t, s)
 	}
 	if len(t) == 0 {
-		return len(s)
+		return len(s), nil
 	}
 
 	previous := make([]int, len(t)+1)
@@ -102,5 +116,5 @@ func LevenshteinDistance(s, t string) int {
 		}
 		previous = current
 	}
-	return previous[len(previous)-1]
+	return previous[len(previous)-1], nil
 }

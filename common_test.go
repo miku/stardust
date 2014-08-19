@@ -79,7 +79,7 @@ func TestNgramSimilarity(t *testing.T) {
 		{"The quick brown fox", "The quick brown fox", 1.000000},
 	}
 	for _, tt := range ngramSimilarityTests {
-		out := NgramSimilarity(tt.a, tt.b)
+		out, _ := NgramSimilarity(tt.a, tt.b)
 		if !AlmostEqualRelative(out, tt.out, 1e-5) {
 			t.Errorf("NgramSimilarity(%s, %s) => %f, want: %f", tt.a, tt.b, out, tt.out)
 		}
@@ -101,7 +101,7 @@ func TestNgramSimilaritySize(t *testing.T) {
 		{"The quick brown fox", "The qiuck brown fox", 1, 1.000000},
 	}
 	for _, tt := range ngramSimilaritySizeTests {
-		out := NgramSimilaritySize(tt.a, tt.b, tt.size)
+		out, _ := NgramSimilaritySize(tt.a, tt.b, tt.size)
 		if !AlmostEqualRelative(out, tt.out, 1e-5) {
 			t.Errorf("NgramSimilaritySize(%s, %s, %d) => %f, want: %f", tt.a, tt.b, tt.size, out, tt.out)
 		}
@@ -136,7 +136,7 @@ func TestLevenshteinDistance(t *testing.T) {
 		{"kitten", "", 6},
 	}
 	for _, tt := range levenshteinDistanceTests {
-		out := LevenshteinDistance(tt.a, tt.b)
+		out, _ := LevenshteinDistance(tt.a, tt.b)
 		if out != tt.out {
 			t.Errorf("LevenshteinDistance(%s, %s) => %d, want: %d", tt.a, tt.b, out, tt.out)
 		}
