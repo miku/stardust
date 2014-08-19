@@ -19,6 +19,7 @@ Overview
 
     $ go run cmd/stardust/stardust.go -l
     hamming
+    jaro
     levenshtein
     ngram
 
@@ -27,3 +28,6 @@ Overview
 
     $ go run cmd/stardust/stardust.go -m ngram "The quick brown fox" "The fox brown quick"
     0.6190476190476191
+
+    $ go run cmd/stardust/stardust.go -m jaro "The quick brown fox" "The fox brown quick"
+    0.6432748538011696
