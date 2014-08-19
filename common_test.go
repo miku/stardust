@@ -85,8 +85,24 @@ func TestNgramSimilaritySize(t *testing.T) {
 	}
 	for _, tt := range ngramSimilaritySizeTests {
 		out := NgramSimilaritySize(tt.a, tt.b, tt.size)
-		if out != tt.out {
+		if strconv.FormatFloat(out, 'f', 8, 64) != strconv.FormatFloat(tt.out, 'f', 8, 64) {
 			t.Errorf("NgramSimilaritySize(%s, %s, %d) => %f, want: %f", tt.a, tt.b, tt.size, out, tt.out)
+		}
+	}
+}
+
+func TestHammingDistance(t *testing.T) {
+	var hammingDistanceTests = []struct {
+		a   string
+		b   string
+		out int
+	}{
+		{"Hello World", "Hello Earth", 4},
+	}
+	for _, tt := range hammingDistanceTests {
+		out, _ := HammingDistance(tt.a, tt.b)
+		if out != tt.out {
+			t.Errorf("HammingDistance(%s, %s) => %d, want: %d", tt.a, tt.b, out, tt.out)
 		}
 	}
 }

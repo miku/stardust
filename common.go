@@ -1,6 +1,8 @@
 package stardust
 
 import (
+	"errors"
+
 	"github.com/juju/utils/set"
 )
 
@@ -41,4 +43,17 @@ func NgramSimilaritySize(s, t string, n int) float64 {
 
 func NgramSimilarity(s, t string) float64 {
 	return NgramSimilaritySize(s, t, 3)
+}
+
+func HammingDistance(a, b string) (int, error) {
+	if len(a) != len(b) {
+		return 0, errors.New("strings but be of equal length")
+	}
+	distance := 0
+	for i := 0; i < len(a); i++ {
+		if a[i] != b[i] {
+			distance++
+		}
+	}
+	return distance, nil
 }
