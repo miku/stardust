@@ -2,6 +2,7 @@ package stardust
 
 import (
 	"errors"
+	"math"
 
 	"github.com/juju/utils/set"
 )
@@ -56,4 +57,50 @@ func HammingDistance(a, b string) (int, error) {
 		}
 	}
 	return distance, nil
+}
+
+func maxInt(numbers ...int) int {
+	result := math.MinInt64
+	for _, k := range numbers {
+		if k > result {
+			result = k
+		}
+	}
+	return result
+}
+
+func minInt(numbers ...int) int {
+	result := math.MaxInt64
+	for _, k := range numbers {
+		if k < result {
+			result = k
+		}
+	}
+	return result
+}
+
+func LevenshteinDistance(s, t string) int {
+	if len(s) < len(t) {
+		return LevenshteinDistance(t, s)
+	}
+	if len(t) == 0 {
+		return len(s)
+	}
+
+	previous := make([]int, len(t)+1)
+	for i, c := range s {
+		current := []int{i + 1}
+		for j, d := range t {
+			insertions := previous[j+1] + 1
+			deletions := current[j] + 1
+			cost := 0
+			if c != d {
+				cost = 1
+			}
+			subtitutions := previous[j] + cost
+			current = append(current, minInt(insertions, deletions, subtitutions))
+		}
+		previous = current
+	}
+	return previous[len(previous)-1]
 }

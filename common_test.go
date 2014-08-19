@@ -123,3 +123,23 @@ func TestHammingDistance(t *testing.T) {
 		}
 	}
 }
+
+func TestLevenshteinDistance(t *testing.T) {
+	var levenshteinDistanceTests = []struct {
+		a   string
+		b   string
+		out int
+	}{
+		{"kitten", "sitting", 3},
+		{"kitten", "bitten", 1},
+		{"kitten", "bittten", 2},
+		{"kitten", "", 6},
+	}
+	for _, tt := range levenshteinDistanceTests {
+		out := LevenshteinDistance(tt.a, tt.b)
+		if out != tt.out {
+			t.Errorf("LevenshteinDistance(%s, %s) => %d, want: %d", tt.a, tt.b, out, tt.out)
+		}
+	}
+}
+
