@@ -59,6 +59,20 @@ func main() {
 		flag.PrintDefaults()
 	}
 
+	// check for stdin or filename
+	if len(flag.Args()) == 1 {
+		if flag.Args()[0] == "-" {
+			fmt.Fprintf(os.Stderr, "reading from stdin...\n")
+			return
+		} else {
+			// try open a file
+			if _, err := os.Stat(flag.Args()[0]); err == nil {
+				fmt.Fprintf(os.Stderr, "reading from file...\n")
+				return
+			}
+		}
+	}
+
 	if len(flag.Args()) != 2 {
 		PrintUsage()
 		os.Exit(1)
