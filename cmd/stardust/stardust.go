@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"sort"
 	"strings"
 
 	"github.com/miku/stardust"
@@ -25,7 +26,12 @@ func main() {
 	flag.Parse()
 
 	if *listFuncs {
-		for k, _ := range distanceFuncMap {
+		var keys []string
+		for k := range distanceFuncMap {
+			keys = append(keys, k)
+		}
+		sort.Strings(keys)
+		for _, k := range keys {
 			fmt.Println(k)
 		}
 		return
