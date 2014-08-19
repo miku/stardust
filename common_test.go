@@ -1,11 +1,28 @@
 package stardust
 
 import (
+	"math"
 	"reflect"
 	"testing"
 
 	"github.com/juju/utils/set"
 )
+
+// AlmostEqualRelative is a float comparison helper
+// Via http://randomascii.wordpress.com/2012/02/25/comparing-floating-point-numbers-2012-edition/
+func AlmostEqualRelative(a, b, maxRelDiff float64) bool {
+	diff := math.Abs(a - b)
+	A := math.Abs(a)
+	B := math.Abs(b)
+	largest := A
+	if B > A {
+		largest = B
+	}
+	if diff <= largest*maxRelDiff {
+		return true
+	}
+	return false
+}
 
 func TestJaccardSets(t *testing.T) {
 	var jaccardSetsTests = []struct {
@@ -63,7 +80,7 @@ func TestNgramSimilarity(t *testing.T) {
 	}
 	for _, tt := range ngramSimilarityTests {
 		out := NgramSimilarity(tt.a, tt.b)
-		if out != tt.out {
+		if !AlmostEqualRelative(out, tt.out, 1e-5) {
 			t.Errorf("NgramSimilarity(%s, %s) => %f, want: %f", tt.a, tt.b, out, tt.out)
 		}
 	}
@@ -85,7 +102,7 @@ func TestNgramSimilaritySize(t *testing.T) {
 	}
 	for _, tt := range ngramSimilaritySizeTests {
 		out := NgramSimilaritySize(tt.a, tt.b, tt.size)
-		if strconv.FormatFloat(out, 'f', 8, 64) != strconv.FormatFloat(tt.out, 'f', 8, 64) {
+		if !AlmostEqualRelative(out, tt.out, 1e-5) {
 			t.Errorf("NgramSimilaritySize(%s, %s, %d) => %f, want: %f", tt.a, tt.b, tt.size, out, tt.out)
 		}
 	}
