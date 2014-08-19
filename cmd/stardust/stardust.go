@@ -13,9 +13,10 @@ import (
 func main() {
 
 	distanceFuncMap := map[string]interface{}{
-		"ngram":       stardust.NgramSimilarity,
 		"hamming":     stardust.HammingDistance,
 		"levenshtein": stardust.LevenshteinDistance,
+		"ngram":       stardust.NgramSimilarity,
+		"jaro":        stardust.JaroSimilarity,
 	}
 
 	measure := flag.String("m", "ngram", "distance measure")

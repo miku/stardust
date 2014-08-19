@@ -143,20 +143,19 @@ func TestLevenshteinDistance(t *testing.T) {
 	}
 }
 
-func BenchmarkNgramSimilarity(b *testing.B) {
-	for i := 0; i < b.N; i++ {
-		NgramSimilarity("Hello World", "Hey young world")
+func TestJaroSimilarity(t *testing.T) {
+	var jaroSimilarityTests = []struct {
+		a   string
+		b   string
+		out float64
+	}{
+		{"kitten", "kitten", 1},
+		{"kitten", "bitten", 0.888889},
 	}
-}
-
-func BenchmarkHammingDistance(b *testing.B) {
-	for i := 0; i < b.N; i++ {
-		HammingDistance("Hello World", "Hey young world")
-	}
-}
-
-func BenchmarkLevenshteinDistance(b *testing.B) {
-	for i := 0; i < b.N; i++ {
-		LevenshteinDistance("Hello World", "Hey young world")
+	for _, tt := range jaroSimilarityTests {
+		out, _ := JaroSimilarity(tt.a, tt.b)
+		if !AlmostEqualRelative(out, tt.out, 1e-5) {
+			t.Errorf("JaroSimilarity(%s, %s) => %f, want: %f", tt.a, tt.b, out, tt.out)
+		}
 	}
 }
