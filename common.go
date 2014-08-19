@@ -47,7 +47,7 @@ func NgramSimilarity(s, t string) float64 {
 
 func HammingDistance(a, b string) (int, error) {
 	if len(a) != len(b) {
-		return 0, errors.New("strings but be of equal length")
+		return 0, errors.New("strings must be of equal length")
 	}
 	distance := 0
 	for i := 0; i < len(a); i++ {
