@@ -1,7 +1,16 @@
 stardust
 ========
 
+
+
 Stardust, strdist. String distance measures for the command line.
+
+[![Build Status](http://img.shields.io/travis/miku/stardust.svg?style=flat)](https://travis-ci.org/miku/stardust)
+
+![Actual star dust](http://www.jpl.nasa.gov/images/herschel/20120110/pia15254-640.jpg)
+
+Overview
+--------
 
     $ go run cmd/stardust/stardust.go -h
     Usage of stardust:
@@ -18,5 +27,3 @@ Stardust, strdist. String distance measures for the command line.
 
     $ go run cmd/stardust/stardust.go -f ngram "The quick brown fox" "The fox brown quick"
     0.6190476190476191
-
-[![Build Status](http://img.shields.io/travis/miku/stardust.svg?style=flat)](https://travis-ci.org/miku/stardust)
