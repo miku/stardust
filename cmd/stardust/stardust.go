@@ -40,9 +40,6 @@ func main() {
 		os.Exit(1)
 	}
 
-	a := flag.Args()[0]
-	b := flag.Args()[1]
-
 	// find the right prefix function
 	var keys []string
 	for k := range distanceFuncMap {
@@ -50,13 +47,16 @@ func main() {
 	}
 	result := stardust.CompleteString(keys, *measure)
 	if len(result) > 1 {
-		log.Fatalf("ambiguous measure name: %s\n", strings.Join(result, ", "))
-	}
-	if len(result) == 0 {
+		log.Fatalf("ambiguous name: %s\n", strings.Join(result, ", "))
+	} else if len(result) == 0 {
 		log.Fatal("no such distance function")
 	}
 	fn, _ := distanceFuncMap[result[0]]
 
+	a := flag.Args()[0]
+	b := flag.Args()[1]
+
+	// we have both int and float functions
 	switch fn.(type) {
 	default:
 		log.Fatal("unknown signature")
