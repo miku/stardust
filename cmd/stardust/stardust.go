@@ -34,12 +34,12 @@ func main() {
 	app.Commands = []cli.Command{
 		{
 			Name:        "ngram",
-			Usage:       "Ngram similarity",
-			Description: "Compute Ngram similarity, which lies between 0 and 1.",
+			Usage:       "Ngram distance",
+			Description: "Compute Ngram distance, which lies between 0 and 1 (equal).",
 			Action: func(c *cli.Context) {
 				records := stardust.RecordGenerator(c)
 				for r := range records {
-					measure, err := stardust.NgramSimilaritySize(r.Left(), r.Right(), c.Int("size"))
+					measure, err := stardust.NgramDistanceSize(r.Left(), r.Right(), c.Int("size"))
 					if err != nil {
 						log.Fatal(err)
 					}

@@ -66,8 +66,8 @@ func TestNgram(t *testing.T) {
 	}
 }
 
-func TestNgramSimilarity(t *testing.T) {
-	var ngramSimilarityTests = []struct {
+func TestNgramDistance(t *testing.T) {
+	var ngramDistanceTests = []struct {
 		a   string
 		b   string
 		out float64
@@ -78,15 +78,15 @@ func TestNgramSimilarity(t *testing.T) {
 		{"The quick brown fox", "The qiuck brown fox", 0.619048},
 		{"The quick brown fox", "The quick brown fox", 1.000000},
 	}
-	for _, tt := range ngramSimilarityTests {
-		out, _ := NgramSimilarity(tt.a, tt.b)
+	for _, tt := range ngramDistanceTests {
+		out, _ := NgramDistance(tt.a, tt.b)
 		if !AlmostEqualRelative(out, tt.out, 1e-5) {
-			t.Errorf("NgramSimilarity(%s, %s) => %f, want: %f", tt.a, tt.b, out, tt.out)
+			t.Errorf("NgramDistance(%s, %s) => %f, want: %f", tt.a, tt.b, out, tt.out)
 		}
 	}
 }
 
-func TestNgramSimilaritySize(t *testing.T) {
+func TestNgramDistanceSize(t *testing.T) {
 	var ngramSimilaritySizeTests = []struct {
 		a    string
 		b    string
@@ -101,9 +101,9 @@ func TestNgramSimilaritySize(t *testing.T) {
 		{"The quick brown fox", "The qiuck brown fox", 1, 1.000000},
 	}
 	for _, tt := range ngramSimilaritySizeTests {
-		out, _ := NgramSimilaritySize(tt.a, tt.b, tt.size)
+		out, _ := NgramDistanceSize(tt.a, tt.b, tt.size)
 		if !AlmostEqualRelative(out, tt.out, 1e-5) {
-			t.Errorf("NgramSimilaritySize(%s, %s, %d) => %f, want: %f", tt.a, tt.b, tt.size, out, tt.out)
+			t.Errorf("NgramDistanceSize(%s, %s, %d) => %f, want: %f", tt.a, tt.b, tt.size, out, tt.out)
 		}
 	}
 }

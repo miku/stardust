@@ -47,7 +47,7 @@ func Ngrams(s string, n int) set.Strings {
 	return result
 }
 
-func NgramSimilaritySize(s, t string, n int) (float64, error) {
+func NgramDistanceSize(s, t string, n int) (float64, error) {
 	sset := Ngrams(s, n)
 	tset := Ngrams(t, n)
 	if tset.Size() == 0 && sset.Size() == 0 {
@@ -56,8 +56,8 @@ func NgramSimilaritySize(s, t string, n int) (float64, error) {
 	return JaccardSets(sset, tset), nil
 }
 
-func NgramSimilarity(s, t string) (float64, error) {
-	return NgramSimilaritySize(s, t, 3)
+func NgramDistance(s, t string) (float64, error) {
+	return NgramDistanceSize(s, t, 3)
 }
 
 func HammingDistance(a, b string) (int, error) {
