@@ -60,7 +60,10 @@ func main() {
 			Action: func(c *cli.Context) {
 				records := stardust.RecordGenerator(c)
 				for r := range records {
-					measure, _ := stardust.HammingDistance(r.Left(), r.Right())
+					measure, err := stardust.HammingDistance(r.Left(), r.Right())
+					if err != nil {
+						log.Fatal(err)
+					}
 					fmt.Printf("%s\t%v\n", strings.Join(r.Fields, "\t"), measure)
 				}
 			},
@@ -71,7 +74,10 @@ func main() {
 			Action: func(c *cli.Context) {
 				records := stardust.RecordGenerator(c)
 				for r := range records {
-					measure, _ := stardust.LevenshteinDistance(r.Left(), r.Right())
+					measure, err := stardust.LevenshteinDistance(r.Left(), r.Right())
+					if err != nil {
+						log.Fatal(err)
+					}
 					fmt.Printf("%s\t%v\n", strings.Join(r.Fields, "\t"), measure)
 				}
 			},
@@ -83,7 +89,10 @@ func main() {
 			Action: func(c *cli.Context) {
 				records := stardust.RecordGenerator(c)
 				for r := range records {
-					measure, _ := stardust.JaroDistance(r.Left(), r.Right())
+					measure, err := stardust.JaroDistance(r.Left(), r.Right())
+					if err != nil {
+						log.Fatal(err)
+					}
 					fmt.Printf("%s\t%v\n", strings.Join(r.Fields, "\t"), measure)
 				}
 			},
@@ -95,7 +104,10 @@ func main() {
 			Action: func(c *cli.Context) {
 				records := stardust.RecordGenerator(c)
 				for r := range records {
-					measure, _ := stardust.JaroWinklerDistance(r.Left(), r.Right(), c.Float64("boost"), c.Int("size"))
+					measure, err := stardust.JaroWinklerDistance(r.Left(), r.Right(), c.Float64("boost"), c.Int("size"))
+					if err != nil {
+						log.Fatal(err)
+					}
 					fmt.Printf("%s\t%v\n", strings.Join(r.Fields, "\t"), measure)
 				}
 			},
