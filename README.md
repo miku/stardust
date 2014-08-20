@@ -20,20 +20,20 @@ Overview
     VERSION:
        0.1.0
 
-    AUTHOR:
-      Martin Czygan - <martin.czygan@gmail.com>
-
     COMMANDS:
        ngram    Ngram similarity
        hamming  Hamming distance
-       jaro     Jaro similarity
+       levenshtein  Levenshtein distance
+       jaro     Jaro distance
+       jaro-winkler Jaro-Winkler distance
        plain    Plain passthrough (for IO benchmarks)
        help, h  Shows a list of commands or help for one command
 
     GLOBAL OPTIONS:
        -f '1,2'     c1,c2 the two columns to use for the comparison
-       --help, -h       show help
+       --delimiter, -d '    '   column delimiter (defaults to tab)
        --version, -v    print the version
+       --help, -h       show help
 
 For starters
 ------------
@@ -45,7 +45,7 @@ For starters
     Hallo   Hello   0.2
 
     $ stardust ngram "Hallo Welt" "Hello World"
-    Hallo Welt	Hello World	0.21428571428571427
+    Hallo Welt  Hello World 0.21428571428571427
 
 Are the man pages of `cp` and `mv` more similar that those of `ls` and `mv`,
 when measured with a trigram model?
