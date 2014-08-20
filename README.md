@@ -12,22 +12,55 @@ Stardust, strdist. String distance measures for the command line.
 Overview
 --------
 
-    $ go run cmd/stardust/stardust.go -h
-    Usage of stardust:
-      -m="ngram": distance measure
-      -l=false: list available measures
+    $ stardust
+    NAME:
+       stardust - String similarity measures for tab separated values.
 
-    $ go run cmd/stardust/stardust.go -l
-    hamming
-    jaro
-    levenshtein
-    ngram
+    USAGE:
+       stardust [global options] command [command options] [arguments...]
 
-    $ go run cmd/stardust/stardust.go -m levenshtein "München" "Munich"
-    4
+    VERSION:
+       0.1.0
 
-    $ go run cmd/stardust/stardust.go -m ngram "The quick brown fox" "The fox brown quick"
-    0.6190476190476191
+    AUTHOR:
+      Martin Czygan - <martin.czygan@gmail.com>
 
-    $ go run cmd/stardust/stardust.go -m jaro "The quick brown fox" "The fox brown quick"
-    0.6432748538011696
+    COMMANDS:
+       ngram    Ngram similarity
+       hamming  Hamming distance
+       jaro     Jaro similarity
+       plain    Plain passthrough (for IO benchmarks)
+       help, h  Shows a list of commands or help for one command
+
+    GLOBAL OPTIONS:
+       -f '1,2'     c1,c2 the two columns to use for the comparison
+       --help, -h       show help
+       --version, -v    print the version
+
+    $ stardust hamming "Hallo" "Hello"
+    Hallo   Hello   1
+
+    $ stardust ngram "Hallo" "Hello"
+    Hallo   Hello   0.2
+
+Measures can have their own options, too:
+
+    $ stardust ngram --help
+    NAME:
+       ngram - Ngram similarity
+
+    USAGE:
+       command ngram [command options] [arguments...]
+
+    DESCRIPTION:
+       Compute Ngram similarity, which lies between 0 and 1.
+
+    OPTIONS:
+       --size, -s '3'   value of n
+
+
+    $ stardust ngram --size 2 "Hello" "Hallo"
+    Hello   Hallo   0.3333333333333333
+
+    $ stardust ngram --size 1 "Hallo" "Hello"
+    Hallo   Hello   0.6

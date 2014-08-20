@@ -119,6 +119,7 @@ func LevenshteinDistance(s, t string) (int, error) {
 	return previous[len(previous)-1], nil
 }
 
+//
 func JaroSimilarity(a, b string) (float64, error) {
 	la := float64(len(a))
 	lb := float64(len(b))

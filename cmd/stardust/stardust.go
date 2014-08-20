@@ -1,114 +1,98 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 	"log"
 	"os"
-	"runtime/pprof"
-	"sort"
 	"strings"
 
+	"github.com/codegangsta/cli"
 	"github.com/miku/stardust"
 )
 
 func main() {
+	app := cli.NewApp()
+	app.Name = "stardust"
+	app.Usage = "String similarity measures for tab separated values."
+	app.Author = "Martin Czygan"
+	app.Email = "martin.czygan@gmail.com"
+	app.Version = "0.1.0"
 
-	distanceFuncMap := map[string]interface{}{
-		"hamming":     stardust.HammingDistance,
-		"levenshtein": stardust.LevenshteinDistance,
-		"ngram":       stardust.NgramSimilarity,
-		"jaro":        stardust.JaroSimilarity,
+	app.Flags = []cli.Flag{
+		cli.StringFlag{
+			Name:  "f",
+			Value: "1,2",
+			Usage: "c1,c2 the two columns to use for the comparison",
+		},
 	}
 
-	measure := flag.String("m", "ngram", "distance measure")
-	listFuncs := flag.Bool("l", false, "list available measures")
-	version := flag.Bool("v", false, "prints current program version")
-	cpuprofile := flag.String("cpuprofile", "", "write cpu profile to file")
-
-	flag.Parse()
-
-	if *version {
-		fmt.Println(stardust.Version)
-		os.Exit(0)
+	app.Commands = []cli.Command{
+		{
+			Name:        "ngram",
+			Usage:       "Ngram similarity",
+			Description: "Compute Ngram similarity, which lies between 0 and 1.",
+			Action: func(c *cli.Context) {
+				records := stardust.RecordGenerator(c)
+				for r := range records {
+					measure, err := stardust.NgramSimilaritySize(r.Left(), r.Right(), c.Int("size"))
+					if err != nil {
+						log.Fatal(err)
+					}
+					fmt.Printf("%s\t%v\n", strings.Join(r.Fields, "\t"), measure)
+				}
+			},
+			Flags: []cli.Flag{
+				cli.IntFlag{
+					Name:  "size, s",
+					Value: 3,
+					Usage: "value of n",
+				},
+			},
+		},
+		{
+			Name:  "hamming",
+			Usage: "Hamming distance",
+			Action: func(c *cli.Context) {
+				records := stardust.RecordGenerator(c)
+				for r := range records {
+					measure, _ := stardust.HammingDistance(r.Left(), r.Right())
+					fmt.Printf("%s\t%v\n", strings.Join(r.Fields, "\t"), measure)
+				}
+			},
+		},
+		{
+			Name:  "levenshtein",
+			Usage: "Levenshtein distance",
+			Action: func(c *cli.Context) {
+				records := stardust.RecordGenerator(c)
+				for r := range records {
+					measure, _ := stardust.LevenshteinDistance(r.Left(), r.Right())
+					fmt.Printf("%s\t%v\n", strings.Join(r.Fields, "\t"), measure)
+				}
+			},
+		},
+		{
+			Name:        "jaro",
+			Usage:       "Jaro similarity",
+			Description: "Similar to Ngram, but faster.",
+			Action: func(c *cli.Context) {
+				records := stardust.RecordGenerator(c)
+				for r := range records {
+					measure, _ := stardust.JaroSimilarity(r.Left(), r.Right())
+					fmt.Printf("%s\t%v\n", strings.Join(r.Fields, "\t"), measure)
+				}
+			},
+		},
+		{
+			Name:  "plain",
+			Usage: "Plain passthrough (for IO benchmarks)",
+			Action: func(c *cli.Context) {
+				records := stardust.RecordGenerator(c)
+				for r := range records {
+					fmt.Printf("%s\n", strings.Join(r.Fields, "\t"))
+				}
+			},
+		},
 	}
-
-	if *cpuprofile != "" {
-		f, err := os.Create(*cpuprofile)
-		if err != nil {
-			log.Fatal(err)
-		}
-		pprof.StartCPUProfile(f)
-		defer pprof.StopCPUProfile()
-	}
-
-	if *listFuncs {
-		var keys []string
-		for k := range distanceFuncMap {
-			keys = append(keys, k)
-		}
-		sort.Strings(keys)
-		for _, k := range keys {
-			fmt.Println(k)
-		}
-		return
-	}
-
-	var PrintUsage = func() {
-		fmt.Fprintf(os.Stderr, "Usage: %s [OPTIONS] STRING STRING\n", os.Args[0])
-		flag.PrintDefaults()
-	}
-
-	// check for stdin or filename
-	if len(flag.Args()) == 1 {
-		if flag.Args()[0] == "-" {
-			fmt.Fprintf(os.Stderr, "reading from stdin...\n")
-			return
-		} else {
-			// try open a file
-			if _, err := os.Stat(flag.Args()[0]); err == nil {
-				fmt.Fprintf(os.Stderr, "reading from file...\n")
-				return
-			}
-		}
-	}
-
-	if len(flag.Args()) != 2 {
-		PrintUsage()
-		os.Exit(1)
-	}
-
-	// find the right prefix function
-	var keys []string
-	for k := range distanceFuncMap {
-		keys = append(keys, k)
-	}
-	result := stardust.CompleteString(keys, *measure)
-	if len(result) > 1 {
-		log.Fatalf("ambiguous name: %s\n", strings.Join(result, ", "))
-	} else if len(result) == 0 {
-		log.Fatal("no such distance function")
-	}
-	fn, _ := distanceFuncMap[result[0]]
-
-	a := flag.Args()[0]
-	b := flag.Args()[1]
-
-	// we have both int and float functions
-	switch fn.(type) {
-	default:
-		log.Fatal("unknown signature")
-	case func(string, string) (float64, error):
-		result, err := fn.(func(string, string) (float64, error))(a, b)
-		if err != nil {
-			log.Fatal(err)
-		}
-		fmt.Println(result)
-	case func(string, string) (int, error):
-		result, err := fn.(func(string, string) (int, error))(a, b)
-		if err != nil {
-			log.Fatal(err)
-		}
-		fmt.Println(result)
-	}
+	app.Run(os.Args)
 }
