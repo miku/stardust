@@ -33,7 +33,7 @@ func Bigrams(s string) set.Strings {
 }
 
 func Trigrams(s string) set.Strings {
-	return Ngrams(s, 2)
+	return Ngrams(s, 3)
 }
 
 func Ngrams(s string, n int) set.Strings {
