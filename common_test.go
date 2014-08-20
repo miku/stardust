@@ -25,7 +25,7 @@ func AlmostEqualRelative(a, b, maxRelDiff float64) bool {
 }
 
 func TestJaccardSets(t *testing.T) {
-	var jaccardSetsTests = []struct {
+	var tests = []struct {
 		a   set.Strings
 		b   set.Strings
 		out float64
@@ -36,7 +36,7 @@ func TestJaccardSets(t *testing.T) {
 		{set.NewStrings("a", "b"), set.NewStrings("a", "b", "c"), 2.0 / 3},
 	}
 
-	for _, tt := range jaccardSetsTests {
+	for _, tt := range tests {
 		out := JaccardSets(tt.a, tt.b)
 		if out != tt.out {
 			t.Errorf("Jaccard(%v, %v) => %f, want: %f", tt.a, tt.b, out, tt.out)
@@ -45,7 +45,7 @@ func TestJaccardSets(t *testing.T) {
 }
 
 func TestNgram(t *testing.T) {
-	var ngramTests = []struct {
+	var tests = []struct {
 		s   string
 		n   int
 		out set.Strings
@@ -58,7 +58,7 @@ func TestNgram(t *testing.T) {
 		{"abc", -10, set.NewStrings()},
 		{"abc def", 3, set.NewStrings("abc", "bc ", "c d", " de", "def")},
 	}
-	for _, tt := range ngramTests {
+	for _, tt := range tests {
 		out := Ngrams(tt.s, tt.n)
 		if !reflect.DeepEqual(out, tt.out) {
 			t.Errorf("Ngrams(%s, %d) => %v, want: %v", tt.s, tt.n, out, tt.out)
@@ -67,7 +67,7 @@ func TestNgram(t *testing.T) {
 }
 
 func TestNgramDistance(t *testing.T) {
-	var ngramDistanceTests = []struct {
+	var tests = []struct {
 		a   string
 		b   string
 		out float64
@@ -78,7 +78,7 @@ func TestNgramDistance(t *testing.T) {
 		{"The quick brown fox", "The qiuck brown fox", 0.619048},
 		{"The quick brown fox", "The quick brown fox", 1.000000},
 	}
-	for _, tt := range ngramDistanceTests {
+	for _, tt := range tests {
 		out, _ := NgramDistance(tt.a, tt.b)
 		if !AlmostEqualRelative(out, tt.out, 1e-5) {
 			t.Errorf("NgramDistance(%s, %s) => %f, want: %f", tt.a, tt.b, out, tt.out)
@@ -87,7 +87,7 @@ func TestNgramDistance(t *testing.T) {
 }
 
 func TestNgramDistanceSize(t *testing.T) {
-	var ngramSimilaritySizeTests = []struct {
+	var tests = []struct {
 		a    string
 		b    string
 		size int
@@ -100,7 +100,7 @@ func TestNgramDistanceSize(t *testing.T) {
 		{"The quick brown fox", "The qiuck brown fox", 2, 0.714286},
 		{"The quick brown fox", "The qiuck brown fox", 1, 1.000000},
 	}
-	for _, tt := range ngramSimilaritySizeTests {
+	for _, tt := range tests {
 		out, _ := NgramDistanceSize(tt.a, tt.b, tt.size)
 		if !AlmostEqualRelative(out, tt.out, 1e-5) {
 			t.Errorf("NgramDistanceSize(%s, %s, %d) => %f, want: %f", tt.a, tt.b, tt.size, out, tt.out)
@@ -109,14 +109,14 @@ func TestNgramDistanceSize(t *testing.T) {
 }
 
 func TestHammingDistance(t *testing.T) {
-	var hammingDistanceTests = []struct {
+	var tests = []struct {
 		a   string
 		b   string
 		out int
 	}{
 		{"Hello World", "Hello Earth", 4},
 	}
-	for _, tt := range hammingDistanceTests {
+	for _, tt := range tests {
 		out, _ := HammingDistance(tt.a, tt.b)
 		if out != tt.out {
 			t.Errorf("HammingDistance(%s, %s) => %d, want: %d", tt.a, tt.b, out, tt.out)
@@ -125,7 +125,7 @@ func TestHammingDistance(t *testing.T) {
 }
 
 func TestLevenshteinDistance(t *testing.T) {
-	var levenshteinDistanceTests = []struct {
+	var tests = []struct {
 		a   string
 		b   string
 		out int
@@ -135,7 +135,7 @@ func TestLevenshteinDistance(t *testing.T) {
 		{"kitten", "bittten", 2},
 		{"kitten", "", 6},
 	}
-	for _, tt := range levenshteinDistanceTests {
+	for _, tt := range tests {
 		out, _ := LevenshteinDistance(tt.a, tt.b)
 		if out != tt.out {
 			t.Errorf("LevenshteinDistance(%s, %s) => %d, want: %d", tt.a, tt.b, out, tt.out)
@@ -144,7 +144,7 @@ func TestLevenshteinDistance(t *testing.T) {
 }
 
 func TestJaroDistance(t *testing.T) {
-	var jaroSimilarityTests = []struct {
+	var tests = []struct {
 		a   string
 		b   string
 		out float64
@@ -152,7 +152,7 @@ func TestJaroDistance(t *testing.T) {
 		{"kitten", "kitten", 1},
 		{"kitten", "bitten", 0.888889},
 	}
-	for _, tt := range jaroSimilarityTests {
+	for _, tt := range tests {
 		out, _ := JaroDistance(tt.a, tt.b)
 		if !AlmostEqualRelative(out, tt.out, 1e-5) {
 			t.Errorf("JaroDistance(%s, %s) => %f, want: %f", tt.a, tt.b, out, tt.out)
