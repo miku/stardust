@@ -35,27 +35,54 @@ func main() {
 
 	app.Commands = []cli.Command{
 		{
-			Name:        "ngram",
-			Usage:       "Ngram distance",
-			Description: "Compute Ngram distance, which lies between 0 and 1 (equal).",
+			Name:        "adhoc",
+			Usage:       "Adhoc distance",
+			Description: "Ad-hoc percentage difference found on the web (https://godoc.org/github.com/karlek/nyfiken/distance).",
 			Action: func(c *cli.Context) {
 				records := stardust.RecordGenerator(c)
 				for r := range records {
-					measure, err := stardust.NgramDistanceSize(r.Left(), r.Right(), c.Int("size"))
-					if err != nil {
-						log.Fatal(err)
-					}
+					measure := distance.Approx(r.Left(), r.Right())
 					fmt.Printf("%s\t%v\n", strings.Join(r.Fields, "\t"), measure)
 				}
 			},
-			Flags: []cli.Flag{
-				cli.IntFlag{
-					Name:  "size, s",
-					Value: 3,
-					Usage: "value of n",
-				},
+		},
+		{
+			Name:        "cosine",
+			Usage:       "Cosine word-wise.",
+			Description: "A a measure of similarity between two vectors. The bigger the return value is, the more similar the two texts are.",
+			Action: func(c *cli.Context) {
+				records := stardust.RecordGenerator(c)
+				for r := range records {
+					measure := simi.CosineSimilarity(r.Left(), r.Right())
+					fmt.Printf("%s\t%v\n", strings.Join(r.Fields, "\t"), measure)
+				}
 			},
 		},
+		{
+			Name:        "coslev",
+			Usage:       "Cosine word-wise and levenshtein combined.",
+			Description: "Experimenal.",
+			Action: func(c *cli.Context) {
+				records := stardust.RecordGenerator(c)
+				for r := range records {
+					measure := simi.StringSimilarity(r.Left(), r.Right())
+					fmt.Printf("%s\t%v\n", strings.Join(r.Fields, "\t"), measure)
+				}
+			},
+		},
+		{
+			Name:        "dice",
+			Usage:       "Sørensen–Dice coefficient",
+			Description: "Semimetric version of the Jaccard index.",
+			Action: func(c *cli.Context) {
+				records := stardust.RecordGenerator(c)
+				for r := range records {
+					measure, _ := stardust.SorensenDiceDistance(r.Left(), r.Right())
+					fmt.Printf("%s\t%v\n", strings.Join(r.Fields, "\t"), measure)
+				}
+			},
+		},
+
 		{
 			Name:  "hamming",
 			Usage: "Hamming distance",
@@ -63,20 +90,6 @@ func main() {
 				records := stardust.RecordGenerator(c)
 				for r := range records {
 					measure, err := stardust.HammingDistance(r.Left(), r.Right())
-					if err != nil {
-						log.Fatal(err)
-					}
-					fmt.Printf("%s\t%v\n", strings.Join(r.Fields, "\t"), measure)
-				}
-			},
-		},
-		{
-			Name:  "levenshtein",
-			Usage: "Levenshtein distance",
-			Action: func(c *cli.Context) {
-				records := stardust.RecordGenerator(c)
-				for r := range records {
-					measure, err := stardust.LevenshteinDistance(r.Left(), r.Right())
 					if err != nil {
 						log.Fatal(err)
 					}
@@ -127,39 +140,39 @@ func main() {
 			},
 		},
 		{
-			Name:        "adhoc",
-			Usage:       "Adhoc distance",
-			Description: "Ad-hoc percentage difference found on the web (https://godoc.org/github.com/karlek/nyfiken/distance).",
+			Name:  "levenshtein",
+			Usage: "Levenshtein distance",
 			Action: func(c *cli.Context) {
 				records := stardust.RecordGenerator(c)
 				for r := range records {
-					measure := distance.Approx(r.Left(), r.Right())
+					measure, err := stardust.LevenshteinDistance(r.Left(), r.Right())
+					if err != nil {
+						log.Fatal(err)
+					}
 					fmt.Printf("%s\t%v\n", strings.Join(r.Fields, "\t"), measure)
 				}
 			},
 		},
 		{
-			Name:        "cosine",
-			Usage:       "Cosine word-wise.",
-			Description: "A a measure of similarity between two vectors. The bigger the return value is, the more similar the two texts are.",
+			Name:        "ngram",
+			Usage:       "Ngram distance",
+			Description: "Compute Ngram distance, which lies between 0 and 1 (equal).",
 			Action: func(c *cli.Context) {
 				records := stardust.RecordGenerator(c)
 				for r := range records {
-					measure := simi.CosineSimilarity(r.Left(), r.Right())
+					measure, err := stardust.NgramDistanceSize(r.Left(), r.Right(), c.Int("size"))
+					if err != nil {
+						log.Fatal(err)
+					}
 					fmt.Printf("%s\t%v\n", strings.Join(r.Fields, "\t"), measure)
 				}
 			},
-		},
-		{
-			Name:        "coslev",
-			Usage:       "Cosine word-wise and levenshtein combined.",
-			Description: "Experimenal.",
-			Action: func(c *cli.Context) {
-				records := stardust.RecordGenerator(c)
-				for r := range records {
-					measure := simi.StringSimilarity(r.Left(), r.Right())
-					fmt.Printf("%s\t%v\n", strings.Join(r.Fields, "\t"), measure)
-				}
+			Flags: []cli.Flag{
+				cli.IntFlag{
+					Name:  "size, s",
+					Value: 3,
+					Usage: "value of n",
+				},
 			},
 		},
 		{
