@@ -20,20 +20,27 @@ Overview
     VERSION:
        0.1.0
 
+    AUTHOR:
+      Martin Czygan - <martin.czygan@gmail.com>
+
     COMMANDS:
-       ngram    Ngram distance
+       adhoc    Adhoc distance
+       cosine   Cosine word-wise
+       coslev   Cosine word-wise and levenshtein combined
+       dice     Sørensen–Dice coefficient
        hamming  Hamming distance
-       levenshtein  Levenshtein distance
        jaro     Jaro distance
        jaro-winkler Jaro-Winkler distance
+       levenshtein  Levenshtein distance
+       ngram    Ngram distance
        plain    Plain passthrough (for IO benchmarks)
        help, h  Shows a list of commands or help for one command
 
     GLOBAL OPTIONS:
        -f '1,2'     c1,c2 the two columns to use for the comparison
        --delimiter, -d '    '   column delimiter (defaults to tab)
-       --version, -v    print the version
        --help, -h       show help
+       --version, -v    print the version
 
 For starters
 ------------
