@@ -7,6 +7,8 @@ import (
 	"strings"
 
 	"github.com/codegangsta/cli"
+	"github.com/gyuho/goling/simi"
+	"github.com/karlek/nyfiken/distance"
 	"github.com/miku/stardust"
 )
 
@@ -122,6 +124,42 @@ func main() {
 					Value: 3,
 					Usage: "prefix size",
 				},
+			},
+		},
+		{
+			Name:        "adhoc",
+			Usage:       "Adhoc distance",
+			Description: "Ad-hoc percentage difference found on the web (https://godoc.org/github.com/karlek/nyfiken/distance).",
+			Action: func(c *cli.Context) {
+				records := stardust.RecordGenerator(c)
+				for r := range records {
+					measure := distance.Approx(r.Left(), r.Right())
+					fmt.Printf("%s\t%v\n", strings.Join(r.Fields, "\t"), measure)
+				}
+			},
+		},
+		{
+			Name:        "cosine",
+			Usage:       "Cosine word-wise.",
+			Description: "A a measure of similarity between two vectors. The bigger the return value is, the more similar the two texts are.",
+			Action: func(c *cli.Context) {
+				records := stardust.RecordGenerator(c)
+				for r := range records {
+					measure := simi.CosineSimilarity(r.Left(), r.Right())
+					fmt.Printf("%s\t%v\n", strings.Join(r.Fields, "\t"), measure)
+				}
+			},
+		},
+		{
+			Name:        "coslev",
+			Usage:       "Cosine word-wise and levenshtein combined.",
+			Description: "Experimenal.",
+			Action: func(c *cli.Context) {
+				records := stardust.RecordGenerator(c)
+				for r := range records {
+					measure := simi.StringSimilarity(r.Left(), r.Right())
+					fmt.Printf("%s\t%v\n", strings.Join(r.Fields, "\t"), measure)
+				}
 			},
 		},
 		{
