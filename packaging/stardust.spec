@@ -1,6 +1,6 @@
 Summary:    String distance metrics for the command line.
 Name:       stardust
-Version:    0.0.1
+Version:    0.1.0
 Release:    0
 License:    MIT
 BuildArch:  x86_64
@@ -46,5 +46,9 @@ rm -rf %{_topdir}/BUILD/%{name}
 
 
 %changelog
+* Wed Aug 20 2014 Martin Czygan
+- 0.1.0 release
+- five metrics: ngram, hamming, levenshtein, jaro, jaro-winkler
+
 * Mon Aug 18 2014 Martin Czygan
 - 0.0.1 initial release

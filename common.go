@@ -8,7 +8,7 @@ import (
 	"github.com/juju/utils/set"
 )
 
-const Version = "0.0.1"
+const Version = "0.1.0"
 
 func CompleteString(pool []string, prefix string) []string {
 	var candidates []string
