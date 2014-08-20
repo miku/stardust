@@ -2,9 +2,15 @@ package stardust
 
 import "testing"
 
-func BenchmarkNgramSimilarity(b *testing.B) {
+func BenchmarkNgramDistance(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		NgramSimilarity("Hello World", "Hey young world")
+		NgramDistance("Hello World", "Hey young world")
+	}
+}
+
+func BenchmarkNgramDistanceSize(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		NgramDistanceSize("Hello World", "Hey young world", 1)
 	}
 }
 
