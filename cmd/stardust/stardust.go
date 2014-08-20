@@ -24,6 +24,11 @@ func main() {
 			Value: "1,2",
 			Usage: "c1,c2 the two columns to use for the comparison",
 		},
+		cli.StringFlag{
+			Name:  "delimiter, d",
+			Value: "\t",
+			Usage: "column delimiter (defaults to tab)",
+		},
 	}
 
 	app.Commands = []cli.Command{

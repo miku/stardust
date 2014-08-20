@@ -56,13 +56,12 @@ func ParseColumnSpec(s string) (*ColumnSpec, error) {
 	return &ColumnSpec{left: int(left) - 1, right: int(right) - 1}, nil
 }
 
-// RecordGeneratorFile will produce pair values, that are extracted according to a given column specification
-func RecordGeneratorFile(reader io.ReadCloser, c *ColumnSpec) chan *Record {
+func RecordGeneratorFileDelimiter(reader io.ReadCloser, c *ColumnSpec, delim string) chan *Record {
 	records := make(chan *Record)
 	go func() {
 		scanner := bufio.NewScanner(reader)
 		for scanner.Scan() {
-			fields := strings.Split(scanner.Text(), "\t")
+			fields := strings.Split(scanner.Text(), delim)
 			if c.left < 0 || c.left >= len(fields) || c.right < 0 || c.right >= len(fields) {
 				log.Fatalf("columnspec mismatch: %+v, %+v\n", fields, c)
 			}
@@ -82,6 +81,11 @@ func RecordGeneratorFile(reader io.ReadCloser, c *ColumnSpec) chan *Record {
 	return records
 }
 
+// RecordGeneratorFile will produce pair values, that are extracted according to a given column specification
+func RecordGeneratorFile(reader io.ReadCloser, c *ColumnSpec) chan *Record {
+	return RecordGeneratorFileDelimiter(reader, c, "\t")
+}
+
 // RecordGenerator abstracts from the way the strings are specified, e.g. via
 // stdin a file or directly on the command line
 func RecordGenerator(c *cli.Context) chan *Record {
@@ -91,7 +95,7 @@ func RecordGenerator(c *cli.Context) chan *Record {
 	}
 	// stdin
 	if len(c.Args()) == 0 || (len(c.Args()) == 1 && c.Args()[0] == "-") {
-		return RecordGeneratorFile(os.Stdin, columnSpec)
+		return RecordGeneratorFileDelimiter(os.Stdin, columnSpec, c.GlobalString("delimiter"))
 	}
 	// from filename
 	if len(c.Args()) == 1 {
