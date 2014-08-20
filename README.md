@@ -94,7 +94,7 @@ option, which corresponds to the `n` in [ngram](http://en.wikipedia.org/wiki/N-g
 Input from files
 ----------------
 
-Usign `example.tsv`:
+Usign [example.tsv](https://github.com/miku/stardust/blob/7c57b0ba58894b72d1dab400bd09914351725788/example.tsv):
 
     $ stardust ngram example.tsv | sort -t$'\t' -k3,3 -nr | head -3
     Deutsches Museum    Deutsches Museum    1
