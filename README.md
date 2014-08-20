@@ -90,3 +90,20 @@ option, which corresponds to the `n` in [ngram](http://en.wikipedia.org/wiki/N-g
 
     $ stardust ngram --size 1 "Hallo" "Hello"
     Hallo   Hello   0.6
+
+Input from files
+----------------
+
+Usign `example.tsv`:
+
+    $ stardust ngram example.tsv | sort -t$'\t' -k3,3 -nr | head -3
+    Deutsches Museum    Deutsches Museum    1
+    Deutsche Suchthilfestatistik    Deutsches Museum    0.17647058823529413
+    Deutsche+Guggenheim magazine /  Deutsches Museum    0.16666666666666666
+
+Which is equivalent to:
+
+    $ cat example.tsv | stardust ngram | sort -t$'\t' -k3,3 -nr | head -3
+    Deutsches Museum    Deutsches Museum    1
+    Deutsche Suchthilfestatistik    Deutsches Museum    0.17647058823529413
+    Deutsche+Guggenheim magazine /  Deutsches Museum    0.16666666666666666
