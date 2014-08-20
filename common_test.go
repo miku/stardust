@@ -159,3 +159,19 @@ func TestJaroDistance(t *testing.T) {
 		}
 	}
 }
+
+func TestSorensenDiceDistance(t *testing.T) {
+	var tests = []struct {
+		a   string
+		b   string
+		out float64
+	}{
+		{"night", "nacht", 0.25},
+	}
+	for _, tt := range tests {
+		out, _ := SorensenDiceDistance(tt.a, tt.b)
+		if !AlmostEqualRelative(out, tt.out, 1e-5) {
+			t.Errorf("SorensenDiceDistance(%s, %s) => %f, want: %f", tt.a, tt.b, out, tt.out)
+		}
+	}
+}

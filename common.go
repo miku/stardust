@@ -186,3 +186,13 @@ func JaroWinklerDistance(a, b string, boostThreshold float64, prefixSize int) (f
 	}
 	return j + 0.1*prefixMatch*(1.0-j), nil
 }
+
+func SorensenDiceDistance(a, b string) (float64, error) {
+	if len(a)+len(b) == 0 {
+		return 0, nil
+	}
+	ba := Bigrams(a)
+	bb := Bigrams(b)
+	distance := float64(2*ba.Intersection(bb).Size()) / float64(ba.Size()+bb.Size())
+	return distance, nil
+}
