@@ -21,7 +21,7 @@ Overview
        0.1.0
 
     COMMANDS:
-       ngram    Ngram similarity
+       ngram    Ngram distance
        hamming  Hamming distance
        levenshtein  Levenshtein distance
        jaro     Jaro distance
