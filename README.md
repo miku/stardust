@@ -48,7 +48,7 @@ For starters
     Hallo Welt  Hello World 0.21428571428571427
 
 Are the man pages of `cp` and `mv` more similar that those of `ls` and `mv`,
-when measured with a trigram model?
+when measured with a [trigram](http://en.wikipedia.org/wiki/Trigram) model?
 
     $ stardust ngram "$(echo $(man ls))" "$(echo $(man mv))" | cut -f3
     0.29057337220602525
@@ -56,7 +56,7 @@ when measured with a trigram model?
     $ stardust ngram "$(echo $(man cp))" "$(echo $(man mv))" | cut -f3
     0.4792746113989637
 
-They seem to. And according to Jaro similarity?
+They seem to. And according to [Jaro](http://en.wikipedia.org/wiki/Jaro%E2%80%93Winkler_distance) similarity?
 
     $ stardust jaro "$(echo $(man ls))" "$(echo $(man mv))" | cut -f3
     0.5597612762544908
@@ -70,7 +70,7 @@ Specific options
 ----------------
 
 Some measures come with additional options, e.g. ngram will take a size
-option, which corresponds to the `n` in ngram.
+option, which corresponds to the `n` in [ngram](http://en.wikipedia.org/wiki/N-gram).
 
     $ stardust ngram --help
     NAME:
