@@ -48,7 +48,7 @@ func main() {
 		},
 		{
 			Name:        "cosine",
-			Usage:       "Cosine word-wise.",
+			Usage:       "Cosine word-wise",
 			Description: "A a measure of similarity between two vectors. The bigger the return value is, the more similar the two texts are.",
 			Action: func(c *cli.Context) {
 				records := stardust.RecordGenerator(c)
@@ -60,7 +60,7 @@ func main() {
 		},
 		{
 			Name:        "coslev",
-			Usage:       "Cosine word-wise and levenshtein combined.",
+			Usage:       "Cosine word-wise and levenshtein combined",
 			Description: "Experimenal.",
 			Action: func(c *cli.Context) {
 				records := stardust.RecordGenerator(c)
