@@ -120,7 +120,7 @@ func LevenshteinDistance(s, t string) (int, error) {
 }
 
 //
-func JaroSimilarity(a, b string) (float64, error) {
+func JaroDistance(a, b string) (float64, error) {
 	la := float64(len(a))
 	lb := float64(len(b))
 
@@ -156,4 +156,19 @@ func JaroSimilarity(a, b string) (float64, error) {
 	transposes := math.Floor(float64(halfs / 2))
 
 	return ((matches / la) + (matches / lb) + (matches-transposes)/matches) / 3.0, nil
+}
+
+func JaroWinklerDistance(a, b string, boostThreshold float64, prefixSize int) (float64, error) {
+	j, _ := JaroDistance(a, b)
+	if j <= boostThreshold {
+		return j, nil
+	}
+	prefixSize = int(math.Min(float64(len(a)), math.Min(float64(prefixSize), float64(len(b)))))
+	var prefixMatch float64
+	for i := 0; i < prefixSize; i++ {
+		if a[i] == b[i] {
+			prefixMatch++
+		}
+	}
+	return j + 0.1*prefixMatch*(1.0-j), nil
 }

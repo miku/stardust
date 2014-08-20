@@ -25,3 +25,9 @@ func BenchmarkJaroSimilarity(b *testing.B) {
 		JaroSimilarity("Hello World", "Hey young world")
 	}
 }
+
+func BenchmarkJaroWinklerSimilarity(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		JaroWinklerSimilarity("Hello World", "Hey young world", 0.1, 3)
+	}
+}

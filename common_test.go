@@ -143,7 +143,7 @@ func TestLevenshteinDistance(t *testing.T) {
 	}
 }
 
-func TestJaroSimilarity(t *testing.T) {
+func TestJaroDistance(t *testing.T) {
 	var jaroSimilarityTests = []struct {
 		a   string
 		b   string
@@ -153,9 +153,9 @@ func TestJaroSimilarity(t *testing.T) {
 		{"kitten", "bitten", 0.888889},
 	}
 	for _, tt := range jaroSimilarityTests {
-		out, _ := JaroSimilarity(tt.a, tt.b)
+		out, _ := JaroDistance(tt.a, tt.b)
 		if !AlmostEqualRelative(out, tt.out, 1e-5) {
-			t.Errorf("JaroSimilarity(%s, %s) => %f, want: %f", tt.a, tt.b, out, tt.out)
+			t.Errorf("JaroDistance(%s, %s) => %f, want: %f", tt.a, tt.b, out, tt.out)
 		}
 	}
 }

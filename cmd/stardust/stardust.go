@@ -73,14 +73,38 @@ func main() {
 		},
 		{
 			Name:        "jaro",
-			Usage:       "Jaro similarity",
+			Usage:       "Jaro distance",
 			Description: "Similar to Ngram, but faster.",
 			Action: func(c *cli.Context) {
 				records := stardust.RecordGenerator(c)
 				for r := range records {
-					measure, _ := stardust.JaroSimilarity(r.Left(), r.Right())
+					measure, _ := stardust.JaroDistance(r.Left(), r.Right())
 					fmt.Printf("%s\t%v\n", strings.Join(r.Fields, "\t"), measure)
 				}
+			},
+		},
+		{
+			Name:        "jaro-winkler",
+			Usage:       "Jaro-Winkler distance",
+			Description: "It is a variant of the Jaro distance metric.",
+			Action: func(c *cli.Context) {
+				records := stardust.RecordGenerator(c)
+				for r := range records {
+					measure, _ := stardust.JaroWinklerDistance(r.Left(), r.Right(), c.Float64("boost"), c.Int("size"))
+					fmt.Printf("%s\t%v\n", strings.Join(r.Fields, "\t"), measure)
+				}
+			},
+			Flags: []cli.Flag{
+				cli.Float64Flag{
+					Name:  "boost, b",
+					Value: 0.5,
+					Usage: "boost factor",
+				},
+				cli.IntFlag{
+					Name:  "size, p",
+					Value: 3,
+					Usage: "prefix size",
+				},
 			},
 		},
 		{
