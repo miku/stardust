@@ -56,6 +56,8 @@ func ParseColumnSpec(s string) (*ColumnSpec, error) {
 	return &ColumnSpec{left: int(left) - 1, right: int(right) - 1}, nil
 }
 
+// RecordGeneratorFileDelimiter will produce pair values, that are extracted according to a given column specification
+// and a custom field delimiter
 func RecordGeneratorFileDelimiter(reader io.ReadCloser, c *ColumnSpec, delim string) chan *Record {
 	records := make(chan *Record)
 	go func() {
@@ -82,6 +84,7 @@ func RecordGeneratorFileDelimiter(reader io.ReadCloser, c *ColumnSpec, delim str
 }
 
 // RecordGeneratorFile will produce pair values, that are extracted according to a given column specification
+// and tab delimiter.
 func RecordGeneratorFile(reader io.ReadCloser, c *ColumnSpec) chan *Record {
 	return RecordGeneratorFileDelimiter(reader, c, "\t")
 }
@@ -106,9 +109,9 @@ func RecordGenerator(c *cli.Context) chan *Record {
 				log.Fatal(err)
 			}
 			return RecordGeneratorFile(file, columnSpec)
-		} else {
-			log.Fatal("no such file: %s\n", filename)
 		}
+		log.Fatal("no such file: %s\n", filename)
+
 	}
 	// direct
 	if len(c.Args()) == 2 {
