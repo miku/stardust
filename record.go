@@ -110,7 +110,7 @@ func RecordGenerator(c *cli.Context) chan *Record {
 			}
 			return RecordGeneratorFile(file, columnSpec)
 		}
-		log.Fatal("no such file: %s\n", filename)
+		log.Fatalf("no such file: %s\n", filename)
 
 	}
 	// direct
