@@ -22,7 +22,7 @@ func main() {
 
 	app.Flags = []cli.Flag{
 		cli.StringFlag{
-			Name:  "f",
+			Name:  "fields, f",
 			Value: "1,2",
 			Usage: "c1,c2 the two columns to use for the comparison",
 		},
