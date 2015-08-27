@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	"github.com/codegangsta/cli"
-	"github.com/gyuho/goling/simi"
+	"github.com/gyuho/goling/similar"
 	"github.com/karlek/nyfiken/distance"
 	"github.com/miku/stardust"
 )
@@ -53,7 +53,7 @@ func main() {
 			Action: func(c *cli.Context) {
 				records := stardust.RecordGenerator(c)
 				for r := range records {
-					measure := simi.CosineSimilarity(r.Left(), r.Right())
+					measure := similar.Cosine(r.Left(), r.Right())
 					fmt.Printf("%s\t%v\n", strings.Join(r.Fields, "\t"), measure)
 				}
 			},
@@ -65,7 +65,7 @@ func main() {
 			Action: func(c *cli.Context) {
 				records := stardust.RecordGenerator(c)
 				for r := range records {
-					measure := simi.StringSimilarity(r.Left(), r.Right())
+					measure := similar.Get(r.Left(), r.Right())
 					fmt.Printf("%s\t%v\n", strings.Join(r.Fields, "\t"), measure)
 				}
 			},
