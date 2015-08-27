@@ -9,7 +9,7 @@ import (
 )
 
 // Version of the application
-const Version = "0.1.0"
+const Version = "0.1.1"
 
 // CompleteString returns all strings from pool that have a given prefix
 func CompleteString(pool []string, prefix string) []string {

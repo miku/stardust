@@ -18,7 +18,7 @@ func main() {
 	app.Usage = "String similarity measures for tab separated values."
 	app.Author = "Martin Czygan"
 	app.Email = "martin.czygan@gmail.com"
-	app.Version = "0.1.0"
+	app.Version = "0.1.1"
 
 	app.Flags = []cli.Flag{
 		cli.StringFlag{
