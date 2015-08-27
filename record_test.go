@@ -84,7 +84,7 @@ func TestRecordGeneratorFile(t *testing.T) {
 		if r.Right() != "Somewhere near Japan" {
 			t.Errorf("RecordGeneratorFile(%v, %v) => unexpected record.Right(): %v, got: %v", file, columnSpec, r, r.Right())
 		}
-	case <-time.After(1 * time.Microsecond):
+	case <-time.After(1 * time.Millisecond):
 		t.Errorf("RecordGeneratorFile(%v, %v) => timeout! ", file, columnSpec)
 	}
 }
