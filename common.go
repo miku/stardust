@@ -5,7 +5,7 @@ import (
 	"math"
 	"strings"
 
-	"github.com/juju/utils/set"
+	"github.com/miku/stardust/set"
 )
 
 // Version of the application

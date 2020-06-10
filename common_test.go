@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/juju/utils/set"
+	"github.com/miku/stardust/set"
 )
 
 // AlmostEqualRelative is a float comparison helper

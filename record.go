@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/codegangsta/cli"
+	"github.com/urfave/cli"
 )
 
 // ColumnSpec contains two column indexes
