@@ -6,10 +6,10 @@ import (
 	"os"
 	"strings"
 
-	"github.com/codegangsta/cli"
 	"github.com/gyuho/goling/similar"
 	"github.com/karlek/nyfiken/distance"
 	"github.com/miku/stardust"
+	"github.com/urfave/cli"
 )
 
 func main() {
@@ -53,7 +53,7 @@ func main() {
 			Action: func(c *cli.Context) {
 				records := stardust.RecordGenerator(c)
 				for r := range records {
-					measure := similar.Cosine(r.Left(), r.Right())
+					measure := similar.Cosine([]byte(r.Left()), []byte(r.Right()))
 					fmt.Printf("%s\t%v\n", strings.Join(r.Fields, "\t"), measure)
 				}
 			},
@@ -65,7 +65,7 @@ func main() {
 			Action: func(c *cli.Context) {
 				records := stardust.RecordGenerator(c)
 				for r := range records {
-					measure := similar.Get(r.Left(), r.Right())
+					measure := similar.Get([]byte(r.Left()), []byte(r.Right()))
 					fmt.Printf("%s\t%v\n", strings.Join(r.Fields, "\t"), measure)
 				}
 			},

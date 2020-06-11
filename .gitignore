@@ -24,3 +24,5 @@ _testmain.go
 
 coverage.out
 /stardust
+/debian/stardust/usr
+debian/stardust_*.deb
